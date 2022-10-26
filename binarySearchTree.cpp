@@ -47,7 +47,14 @@ vector<int> inorder_traversal(Node *T)
 
 // return a pointer to the node with key k in tree T, or nullptr if it doesn't exist
 Node *find(Node *T, int k) {
-  return T->key == k ? T:T->left->key >= k ? T->left:T->right; 
+  if(T->key == k){
+    return T;
+  }else if(T->key < k){
+    return find(T->left, k);
+  }else{
+    return find(T->right, k);
+  }
+
 }
 
 // return pointer to node of rank r (with r'th largest key; e.g. r=0 is the minimum)
@@ -65,8 +72,7 @@ Node *select(Node *T, int r) {
 
 // Join trees L and R (with L containing keys all <= the keys in R)
 // Return a pointer to the joined tree.  
-Node *join(Node *L, Node *R)
-{
+Node *join(Node *L, Node *R){
   float p = abs(L->key) / (abs(L->key) + abs(R->key));
   float r = rand() / (float)1;
 
@@ -85,22 +91,36 @@ Node *join(Node *L, Node *R)
 
 // remove key k from T, returning a pointer to the resulting tree.
 // it is required that k be present in T
-Node *remove(Node *T, int k)
-{
+Node *remove(Node *T, int k){
   assert(T != nullptr);
+
+  if(T->key == k){
+    delete T;
+    return join(temp->left, temp->right);
+  } else if(T->left->key == k){
+    delete T->left;
+    T->left = join(temp->left, temp->right);
+    return T;
+  } else if(T->right->key == k){
+    delete T->right;
+    T->right = join(temp->left, temp->right);
+    return T;
+  }
   
-  //Implement Node *remove(Node *T, int k)
+  if(T->left->key < k){
+    return; 
+  }else{
+    return find(T->right, k);
+  }
 }
 
 // Split tree T on key k into tree L (containing keys <= k) and a tree R (containing keys > k)
-void split(Node *T, int k, Node **L, Node **R)
-{
+void split(Node *T, int k, Node **L, Node **R){
   
 }
 
 // insert key k into the tree T, returning a pointer to the resulting tree
-Node *insert_random(Node *T, int k)
-{
+Node *insert_random(Node *T, int k){
   // If k is the Nth node inserted into T, then:
   // with probability 1/N, insert k at the root of T
   // otherwise, insert_random k recursively left or right of the root of T
