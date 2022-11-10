@@ -1,8 +1,8 @@
 /*
- * Name:
- * Date Submitted:
- * Lab Section:
- * Assignment Name:
+ * Name: John Ruane
+ * Date Submitted: 11/9/2022
+ * Lab Section: 001
+ * Assignment Name: Lab 7
  */
 
 #include <iostream>
@@ -148,14 +148,12 @@ void split(Node *T, int k, Node **L, Node **R){
       *L = T;
 
     //if not set L to T
-    }else{
+    }else
       *L = T;
-    }
 
     //if L exists fix size
-    if(*L != nullptr){
+    if(*L != nullptr)
       fix_size(*L);
-    }
   }else{
     //if left exists split left and then set it to R and set R to T
     if(T->left != nullptr){
@@ -164,16 +162,13 @@ void split(Node *T, int k, Node **L, Node **R){
       *R = T;
     
     //if it doesnt set R to T
-    }else{
+    }else
       *R = T;
-    }
 
     //if R doesnt exist fix size of R
-    if(*R != nullptr){
+    if(*R != nullptr)
       fix_size(*R);
-    }
-  }
-  
+  } 
 }
 
 // insert key k into the tree T, returning a pointer to the resulting tree
