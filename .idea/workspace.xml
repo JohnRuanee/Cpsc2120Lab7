@@ -16,9 +16,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f619c64e-871b-49ce-b86f-e713346c2fca" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Cpsc2120Lab7.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Cpsc2120Lab7.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/binarySearchTree.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/binarySearchTree.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +70,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1668044337640</updated>
-      <workItem from="1668044339245" duration="1068000" />
+      <workItem from="1668044339245" duration="1830000" />
     </task>
     <servers />
   </component>

@@ -23,8 +23,7 @@ void fix_size(Node *T)
 }
 
 // insert key k into tree T, returning a pointer to the resulting tree
-Node *insert(Node *T, int k)
-{
+Node *insert(Node *T, int k){
   if (T == nullptr) return new Node(k);
   if (k < T->key) T->left = insert(T->left, k);
   else T->right = insert(T->right, k);
@@ -47,16 +46,23 @@ vector<int> inorder_traversal(Node *T)
 
 // return a pointer to the node with key k in tree T, or nullptr if it doesn't exist
 Node *find(Node *T, int k) {
-  if(T == nullptr){
-      return nullptr;
-  }
-  if(T->key == k){
+  //if T doesnt exist return null
+  if(T == nullptr)
+    return nullptr;
+  
+  //if T is k return it
+  if(T->key == k)
     return T;
-  }else if(T->key < k){
+
+  //if T is less than K search the right side by going recursive
+  else if(T->key < k)
     return find(T->right, k);
-  }else if(T->key > k){
+  
+  //if T is greater than k search the left side by going recursive
+  else if(T->key > k)
     return find(T->left, k);
-  }
+  
+  //return null if nothing goes through
   return nullptr;
 }
 
@@ -64,27 +70,27 @@ Node *find(Node *T, int k) {
 Node *select(Node *T, int r) {
   assert(T!=nullptr && r>=0 && r<T->size);
 
+  //sort T 
   vector<int> vec = inorder_traversal(T);
 
+  //find the rth value in T using the sorted T in vec
   return find(T, vec[r]);
-
-  
-  
 }
 
 // Join trees L and R (with L containing keys all <= the keys in R)
 // Return a pointer to the joined tree.  
 Node *join(Node *L, Node *R){
-  if(L == nullptr){
+  //check if L and R exist if either dont return the other
+  if(L == nullptr)
     return R;
-  }
-  if(R == nullptr) {
+  if(R == nullptr) 
     return L;
-  }
-
-    float p = (float)(L->size) / (L->size + R->size);
-    float r = (float)rand();
   
+  //makes a random number to compare to p to check which side is dominate
+  float p = (float)(L->size) / (L->size + R->size);
+  float r = (float)rand();
+  
+  //if r is less than p make L dominant if it isnt make R
   if(r < p){
     L->right = join(L->right, R);
     fix_size(L);
@@ -103,12 +109,17 @@ Node *join(Node *L, Node *R){
 Node *remove(Node *T, int k){
   assert(T != nullptr);
   
+  //check if T is greater than K and if it is remove the left node and set the new node to left then fix size
   if(T->key > k){
     T->left = remove(T->left, k);
     fix_size(T);
+
+  //check if T is less than K and if it is remove the right node and set the new node to right then fix size
   }else if(T->key < k){
     T->right = remove(T->right, k);
     fix_size(T);
+
+  //if K is equal to T join left and right nodes and set that to T deleting the original T in the process and fix size of T
   }else{
     Node *temp = T;
 
@@ -125,49 +136,68 @@ Node *remove(Node *T, int k){
 
 // Split tree T on key k into tree L (containing keys <= k) and a tree R (containing keys > k)
 void split(Node *T, int k, Node **L, Node **R){
-    *L = nullptr;
-    *R = nullptr;
+  //set L and R to nullptr
+  *L = nullptr;
+  *R = nullptr;
 
-    if(T->key <= k){
-        if(T->right != nullptr){
-            split(T->right, k, L, R);
-            T->right = *L;
-            *L = T;
-        }else{
-            *L = T;
-        }
-        if(*L != nullptr){
-            fix_size(*L);
-        }
+  //if T is less than or equal to K  check right and if it exists split right and set right to left then set left to T
+  if(T->key <= k){
+    if(T->right != nullptr){
+      split(T->right, k, L, R);
+      T->right = *L;
+      *L = T;
+
+    //if not set L to T
     }else{
-        if(T->left != nullptr){
-            split(T->left, k, L, R);
-            T->left = *R;
-            *R = T;
-        }else{
-            *R = T;
-        }
-        if(*R != nullptr){
-            fix_size(*R);
-        }
+      *L = T;
     }
+
+    //if L exists fix size
+    if(*L != nullptr){
+      fix_size(*L);
+    }
+  }else{
+    //if left exists split left and then set it to R and set R to T
+    if(T->left != nullptr){
+      split(T->left, k, L, R);
+      T->left = *R;
+      *R = T;
+    
+    //if it doesnt set R to T
+    }else{
+      *R = T;
+    }
+
+    //if R doesnt exist fix size of R
+    if(*R != nullptr){
+      fix_size(*R);
+    }
+  }
   
 }
 
 // insert key k into the tree T, returning a pointer to the resulting tree
 Node *insert_random(Node *T, int k){
+  //if T doesnt exist return an empty node
   if(T == nullptr)
-      return new Node(k);
+    return new Node(k);
+
+  //set r to random number between 0 and size + 1
   int r = rand() % (T->size + 1);
+  
+  //if r is 0 insert k into the base node
   if(r == 0){
-      Node *n = new Node(k);
-      split(T,k,&n->left,&n->right);
-      T = n;
-  }else if(T->key < k){
-      T->right = insert_random(T->right, k);
-  }else{
-      T->left = insert_random(T->left, k);
-  }
+    Node *n = new Node(k);
+    split(T,k,&n->left,&n->right);
+    T = n;
+    //if T is less than k set right to recursive insert random using T.right
+  }else if(T->key < k)
+    T->right = insert_random(T->right, k);
+    //if not do the same but with left
+  else
+    T->left = insert_random(T->left, k);
+  
+  //fix size of T and then return it
   fix_size(T);
   return T;
 }
